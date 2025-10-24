@@ -7,69 +7,119 @@
 #include "Encoder.h"
 #include "FunctionSelect.h"
 #include "VelEstimator.h"
+#include "ServoMotor.h"
 
 int left_u = 0;
 int right_u = 0;
 
 SCREEN(volts,
   {
-    // ROW("Vbatt [mV]: %d", int(vs_get_v_batt() * 1000));
-    // CLICK_ROW(
-    //   [](CLICK_STATE state){
-    //     switch (state)
-    //     {
-    //     case CLICK_LEFT:
-    //       left_u--;
-    //       break;
-    //     case CLICK_RIGHT:
-    //       left_u++;
-    //       break;
-    //     case CLICK_DOWN:
-    //       left_u = 0;
-    //       break;
-    //     default:
-    //       break;
-    //     }
-    //   },
-    //   "left u [V]: %d", left_u
-    // )
-    // CLICK_ROW(
-    //   [](CLICK_STATE state){
-    //     switch (state)
-    //     {
-    //     case CLICK_LEFT:
-    //       right_u--;
-    //       break;
-    //     case CLICK_RIGHT:
-    //       right_u++;
-    //       break;
-    //     case CLICK_DOWN:
-    //       right_u = 0;
-    //       break;
-    //     default:
-    //       break;
-    //     }
-    //   },
-    //   "right u [V]: %d", right_u
-    // )
+    ROW("Vbatt [mV]: %d", int(vs_get_v_batt() * 1000));
+    CLICK_ROW(
+      [](CLICK_STATE state){
+        switch (state)
+        {
+        case CLICK_LEFT:
+          left_u--;
+          break;
+        case CLICK_RIGHT:
+          left_u++;
+          break;
+        case CLICK_DOWN:
+          left_u = 0;
+          break;
+        default:
+          break;
+        }
+      },
+      "left u [V]: %d", left_u
+    )
+    CLICK_ROW(
+      [](CLICK_STATE state){
+        switch (state)
+        {
+        case CLICK_LEFT:
+          right_u--;
+          break;
+        case CLICK_RIGHT:
+          right_u++;
+          break;
+        case CLICK_DOWN:
+          right_u = 0;
+          break;
+        default:
+          break;
+        }
+      },
+      "right u [V]: %d", right_u
+    )
 
-    ROW(
-      "encLphi: %d", (int)(enc_l_get_phi() * 180.0/M_PI)
-    )
-    ROW(
-      "encRphi: %d", (int)(enc_r_get_phi() * 180.0/M_PI)
-    )
-    ROW(
-      "ve_l_w: %d", (int)(ve_l_get_w_est_f() * 180.0/M_PI)
-    )
-    ROW(
-      "ve_r_w: %d", (int)(ve_r_get_w_est_f() * 180.0/M_PI)
-    )
+    // ROW(
+    //   "encLphi: %d", (int)(enc_l_get_phi() * 180.0/M_PI)
+    // )
     // ROW(
     //   "encRphi: %d", (int)(enc_r_get_phi() * 180.0/M_PI)
     // )
+    
+    // ROW(
+    //   "encRphi: %d", (int)(enc_r_get_phi() * 180.0/M_PI)
+    // )
+
   }
 )
+
+int left_w0 = 0;
+int right_w0 = 0;
+SCREEN(servos,
+  {
+    CLICK_ROW(
+      [](CLICK_STATE state){
+        switch (state)
+        {
+        case CLICK_LEFT:
+          left_w0--;
+          break;
+        case CLICK_RIGHT:
+          left_w0++;
+          break;
+        case CLICK_DOWN:
+          left_w0 = 0;
+          break;
+        default:
+          break;
+        }
+      },
+      "left_w0: %d", left_w0
+    )
+    CLICK_ROW(
+      [](CLICK_STATE state){
+        switch (state)
+        {
+        case CLICK_LEFT:
+          right_w0--;
+          break;
+        case CLICK_RIGHT:
+          right_w0++;
+          break;
+        case CLICK_DOWN:
+          right_w0 = 0;
+          break;
+        default:
+          break;
+        }
+      },
+        "right_w0: %d", right_w0
+    )
+
+    ROW(
+      "ve_l_w: %s", String(ve_l_get_w_est_f()).c_str()
+    )
+    ROW(
+      "ve_r_w: %s", String(ve_r_get_w_est_f()).c_str()
+    )
+  }
+)
+
 
 void setup()
 {
@@ -82,6 +132,7 @@ void setup()
 
   argviz_init(Serial);
   argviz_registerScreen(0, volts);
+  argviz_registerScreen(1, servos);
   argviz_start();
 
 
@@ -98,11 +149,7 @@ void loop()
   // Sense
   // Plan
   // Act
-  enc_l_tick();
-  enc_r_tick();
-  ve_l_tick(enc_l_get_phi());
-  ve_r_tick(enc_r_get_phi());
-  fns_tick();
-  // m_drive(left_u, right_u);
+  // fns_tick();
+  servo_tick(left_w0, right_w0);
 
 }
