@@ -15,6 +15,16 @@ float servo_left_pi(float err)
     return u;
 }
 
+float servo_right_pi(float err)
+{
+    static float I = 0;
+    float up = err * SERVO_KP;
+    float ui = I;
+
+    float u = up + ui;
+    I += err * SERVO_KI * Ts_s;
+    return u;
+}
 
 void servo_tick(float w0_left, float w0_right)
 {
@@ -30,7 +40,7 @@ void servo_tick(float w0_left, float w0_right)
     float err_right = w0_right - w_right;
 
     float u_left = servo_left_pi(err_left);
-    float u_right = servo_left_pi(err_right);
+    float u_right = servo_right_pi(err_right);
 
      m_drive(u_left, u_right);
 }
