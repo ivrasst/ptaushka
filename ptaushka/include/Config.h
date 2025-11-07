@@ -8,3 +8,7 @@
 //Servo
 #define SERVO_KP 1.33
 #define SERVO_KI 20.0
+
+// Robot parameters
+#define ROBOT_WIDTH 0.075 // [m]
+#define ROBOT_WHEEL_RADIUS 0.0165 // [m]
