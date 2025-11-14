@@ -61,8 +61,7 @@ SCREEN(volts,
   }
 )
 
-float goal_v_0 = 0;
-float goal_theta_i0 = 0;
+
 SCREEN(servos,
   {
     CLICK_ROW(

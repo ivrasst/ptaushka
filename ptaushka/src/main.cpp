@@ -10,9 +10,11 @@
 #include "ServoMotor.h"
 #include "Mixer.h"
 #include "Odometr.h"
-#include "Screens.h"
+// #include "Screens.h"
 
-
+void fw();
+void left();
+void stop();
 void setup()
 {
   Serial.begin(115200);
@@ -24,12 +26,95 @@ void setup()
   fns_init();
 
   argviz_init(Serial);
-  argviz_registerScreen(0, volts);
-  argviz_registerScreen(1, servos);
-  argviz_start();
+  // argviz_registerScreen(0, volts);
+  // argviz_registerScreen(1, servos);
+  // argviz_start();  
 
+  fw();
+  left();
+  fw();
+  left();
+  fw();
+  left();
+  fw();
+  left();
+  stop();
+}
 
-  
+float v_0 = 0;
+float theta_i0 = 0;
+// bool m = false;
+
+void stop()
+{
+  odom_reset();
+  while(true){
+    //Timer
+    static uint32_t timer = micros();
+    while(micros() - timer < Ts_us)
+      ;
+    timer = micros();
+
+    //Sens
+    odom_tick();
+
+    //Plan
+    v_0 = 0;
+    theta_i0 = 0;
+
+    //Act
+    mixer_tick(v_0, theta_i0);
+  }
+}
+
+void fw()
+{
+  odom_reset();
+  while(true){
+    //Timer
+    static uint32_t timer = micros();
+    while(micros() - timer < Ts_us)
+      ;
+    timer = micros();
+
+    //Sens
+    odom_tick();
+
+    //Plan
+    v_0 = MAX_VEL;
+    theta_i0 = 0;
+
+    if(odom_get_S() > CELL_WIDTH)
+      return;
+
+    //Act
+    mixer_tick(v_0, theta_i0);
+  }
+}
+
+void left()
+{
+  odom_reset();
+  while(true){
+    //Timer
+    static uint32_t timer = micros();
+    while(micros() - timer < Ts_us)
+      ;
+    timer = micros();
+
+    //Sens
+    odom_tick();
+
+    //Plan
+    v_0 = 0;
+    theta_i0 = MAX_THETA;
+
+    if(abs(odom_get_theta()) > M_PI / 2)
+      return;
+
+    //Act
+    mixer_tick(v_0, theta_i0);
+  }
 }
 
 void loop()
@@ -39,11 +124,7 @@ void loop()
   while(micros() - timer < Ts_us)
     ;
   timer = micros();
-  odom_tick();
-  static float ph = 0;
-  ph += 0.004;
+  // odom_tick();
 
-
-  // mixer_tick(goal_v_0, goal_theta_i0);
-  mixer_tick(0.02, sin(ph)*1.5);
+  // mixer_tick(0,0);
 }
