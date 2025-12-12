@@ -5,6 +5,12 @@
 int left_u = 0;
 int right_u = 0;
 
+SCREEN(odom,
+  ROW(
+  "odom_s: %s", String(odom_get_S()).c_str()
+  )
+)
+
 SCREEN(volts,
   {
     ROW("Vbatt [mV]: %d", int(vs_get_v_batt() * 1000));
@@ -62,51 +68,51 @@ SCREEN(volts,
 )
 
 
-SCREEN(servos,
-  {
-    CLICK_ROW(
-      [](CLICK_STATE state){
-        switch (state)
-        {
-        case CLICK_LEFT:
-          goal_v_0-=0.1;
-          break;
-        case CLICK_RIGHT:
-          goal_v_0+=0.1;
-          break;
-        case CLICK_DOWN:
-          goal_v_0 = 0;
-          break;
-        default:
-          break;
-        }
-      },
-      "goal_v_0: %s", String(goal_v_0).c_str()
-    )
-    CLICK_ROW(
-      [](CLICK_STATE state){
-        switch (state)
-        {
-        case CLICK_LEFT:
-          goal_theta_i0-=0.1;
-          break;
-        case CLICK_RIGHT:
-          goal_theta_i0+=0.1;
-          break;
-        case CLICK_DOWN:
-          goal_theta_i0 = 0;
-          break;
-        default:
-          break;
-        }
-      },
-        "goal_theta_i0: %s", String(goal_theta_i0).c_str()
-    )
-    ROW(
-      "odom_S: %s", String(odom_get_S()).c_str()
-    )
-    ROW(
-      "odom_theta: %s", String(odom_get_theta()).c_str()
-    )
-  }
-)
+// SCREEN(servos,
+//   {
+//     CLICK_ROW(
+//       [](CLICK_STATE state){
+//         switch (state)
+//         {
+//         case CLICK_LEFT:
+//           goal_v_0-=0.1;
+//           break;
+//         case CLICK_RIGHT:
+//           goal_v_0+=0.1;
+//           break;
+//         case CLICK_DOWN:
+//           goal_v_0 = 0;
+//           break;
+//         default:
+//           break;
+//         }
+//       },
+//       "goal_v_0: %s", String(goal_v_0).c_str()
+//     )
+//     CLICK_ROW(
+//       [](CLICK_STATE state){
+//         switch (state)
+//         {
+//         case CLICK_LEFT:
+//           goal_theta_i0-=0.1;
+//           break;
+//         case CLICK_RIGHT:
+//           goal_theta_i0+=0.1;
+//           break;
+//         case CLICK_DOWN:
+//           goal_theta_i0 = 0;
+//           break;
+//         default:
+//           break;
+//         }
+//       },
+//         "goal_theta_i0: %s", String(goal_theta_i0).c_str()
+//     )
+//     ROW(
+//       "odom_S: %s", String(odom_get_S()).c_str()
+//     )
+//     ROW(
+//       "odom_theta: %s", String(odom_get_theta()).c_str()
+//     )
+//   }
+// )
