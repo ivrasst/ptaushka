@@ -6,6 +6,7 @@
 #include "VoltageSensor.h"
 #include "Odometer.h"
 #include "ASMR.h"
+#include "WallSensor.h"
 
 int left_u = 0;
 int right_u = 0;
@@ -154,4 +155,20 @@ SCREEN(asmr,
                ROW("prog_buffer[%d]: %X", prog_counter + i, prog_buffer[prog_counter + i].raw);
            }
            //    ROW("prog_buffer[0]: %d", asmr_get_prog_buffer()[0]);
+       })
+
+SCREEN(wall_sensor,
+       {
+           ROW("Left [popugai]: %d",  (int)(ws_left()));
+           ROW("Right [popugai]: %d", (int)(ws_right()));
+           ROW("Front_L [popugai]: %d",  (int)(ws_front_l()));
+           ROW("Front_R [popugai]: %d", (int)(ws_front_r()));
+       })
+SCREEN(wall_sensor_wall,
+       {
+           ROW("Left_Wall [popugai]: %d", (int)(ws_left_wall()));
+           ROW("Right_Wall [popugai]: %d", (int)(ws_right_wall()));
+           ROW("Front_L_Wall [popugai]: %d", (int)(ws_front_l_wall()));
+           ROW("Front_R_Wall [popugai]: %d", (int)(ws_front_r_wall()));
+           
        })

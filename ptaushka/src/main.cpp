@@ -21,7 +21,7 @@ void setup()
   enc_l_init();
   enc_r_init();
   asmr_init();
-
+  ws_init();
   interrupts();
 
   argviz_init(Serial);
@@ -30,6 +30,8 @@ void setup()
   argviz_registerScreen(2, servos);
   argviz_registerScreen(3, mixer);
   argviz_registerScreen(4, asmr);
+  argviz_registerScreen(5, wall_sensor);
+  argviz_registerScreen(6, wall_sensor_wall);
   argviz_start();
 }
 
