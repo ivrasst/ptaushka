@@ -8,6 +8,7 @@ void vs_init()
 {
     pinMode(VS_BATTERY_VOLTS_PIN, INPUT);
 }
+
 float vs_get_v_batt()
 {
     int BATTERY_VOLTS_RAW = analogRead(VS_BATTERY_VOLTS_PIN);

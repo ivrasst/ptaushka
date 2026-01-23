@@ -8,13 +8,14 @@
 #define M_RIGHT_DIR_PIN 8
 #define M_RIGHT_PWM_PIN 10
 
-int m_init()
+void m_init()
 {
-    pinMode(M_LEFT_DIR_PIN, 1);   
-    pinMode(M_LEFT_PWM_PIN, 1);
-    pinMode(M_RIGHT_DIR_PIN, 1);
-    pinMode(M_RIGHT_PWM_PIN, 1);
+    pinMode(M_LEFT_DIR_PIN, OUTPUT);
+    pinMode(M_LEFT_PWM_PIN, OUTPUT);
+    pinMode(M_RIGHT_DIR_PIN, OUTPUT);
+    pinMode(M_RIGHT_PWM_PIN, OUTPUT);
 }
+
 void m_drive(float u_l, float u_r)
 {
     int left_dir = u_l > 0;
