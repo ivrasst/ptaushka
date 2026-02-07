@@ -24,7 +24,7 @@
 */
 
 // Movement parameters
-#define MAX_VEL 0.1     // [m/s]
+#define MAX_VEL 0.20    // [m/s]
 #define MAX_ANG_VEL 1.0 // [rad/s]
 
 #define TURN_RADIUS_SHORTEST 0.09 // [m]
@@ -35,3 +35,9 @@
 
 // ASMR parameters
 #define ASMR_PROG_BUFFER_SIZE 64
+
+// Wall parameters
+#define WF_LEFT_REFERENCE  108//50
+#define WF_RIGHT_REFERENCE 94//50
+#define WF_LEFT_THRESHOLD  43//20
+#define WF_RIGHT_THRESHOLD 48//20

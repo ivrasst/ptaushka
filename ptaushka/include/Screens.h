@@ -6,7 +6,8 @@
 #include "VoltageSensor.h"
 #include "Odometer.h"
 #include "ASMR.h"
-#include "WallSensor.h"
+#include "DistSensors.h"
+#include "WallFollowing.h"
 
 int left_u = 0;
 int right_u = 0;
@@ -157,18 +158,32 @@ SCREEN(asmr,
            //    ROW("prog_buffer[0]: %d", asmr_get_prog_buffer()[0]);
        })
 
-SCREEN(wall_sensor,
+SCREEN(dist,
        {
-           ROW("Left [popugai]: %d",  (int)(ws_left()));
-           ROW("Right [popugai]: %d", (int)(ws_right()));
-           ROW("Front_L [popugai]: %d",  (int)(ws_front_l()));
-           ROW("Front_R [popugai]: %d", (int)(ws_front_r()));
+           ROW("dist_left: %d", dist_get_left());
+           ROW("dist_right: %d", dist_get_right());
+           ROW("dist_fleft: %d", dist_get_fleft());
+           ROW("dist_fright: %d", dist_get_fright());
        })
-SCREEN(wall_sensor_wall,
+
+SCREEN(wf,
        {
-           ROW("Left_Wall [popugai]: %d", (int)(ws_left_wall()));
-           ROW("Right_Wall [popugai]: %d", (int)(ws_right_wall()));
-           ROW("Front_L_Wall [popugai]: %d", (int)(ws_front_l_wall()));
-           ROW("Front_R_Wall [popugai]: %d", (int)(ws_front_r_wall()));
-           
+           CLICK_ROW([](CLICK_STATE state)
+                     {
+                       switch (state)
+                       {
+                       case CLICK_LEFT:
+                           wf_kp_l /= 1.1;
+                           break;
+                       case CLICK_RIGHT:
+                           wf_kp_r *= 1.1;
+                           break;
+                       case CLICK_DOWN:
+                           wf_kp_l = 1;
+                           wf_kp_r = 1;
+                           break;
+                       default:
+                           break;
+                       } },
+                     "wf_kp_l: %s", String(wf_kp_l).c_str());
        })
