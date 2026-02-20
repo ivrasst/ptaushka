@@ -70,22 +70,27 @@ void solver_init()
     }
 }
 
+Vec2 solver_start;
+Vec2 solver_goal;
 
-
-void solver_solve(Vec2 start, Vec2 goal)
+void solver_set_start_goal(Vec2 start, Vec2 goal)
 {
+    solver_start = start;
+    solver_goal = goal;
     solver_queue.push_back(goal);
     solver_where_from_storage[goal.x][goal.y] = WhereFrom::GOAL;
+}
 
-    while (!solver_queue.isEmpty())
+bool solver_solve()
+{
+    
+    uint32_t timer = micros();
+    while (!solver_queue.isEmpty() && micros() - timer < MAX_SOLVE_TIME)
     {
         Vec2 current = solver_queue.pop_front();
-        // Serial.print(current.x);
-        // Serial.print(" ");
-        // Serial.println(current.y);
-        if (current.x == start.x && current.y == start.y)
+        if (current.x == solver_start.x && current.y == solver_start.y)
         {
-            return;
+            return true;
         }
 
         Maze::CellWalls current_walls = maze_get_walls(current);
@@ -127,6 +132,7 @@ void solver_solve(Vec2 start, Vec2 goal)
             }
         }
     }
+    return false;
     
 }
 

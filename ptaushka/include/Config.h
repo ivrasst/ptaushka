@@ -45,3 +45,6 @@
 /*===MAZE===*/
 #define MAZE_WIDTH 6
 #define MAZE_HEIGHT 4
+
+// Solver parameters
+#define MAX_SOLVE_TIME 500 // [us]
