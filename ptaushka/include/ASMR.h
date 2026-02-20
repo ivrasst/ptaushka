@@ -70,10 +70,12 @@ enum ASMR_CYC : uint8_t
 
     SWD = 0b01000000,
     SWD05 = 0b01000001,
-    SWD1 = 0b01000010,
+    SWD1 = 0b01000010, 
 
     SS90SEL = 0b10010010,
     SS90SER = 0b10010011,
+
+    
 
     TURN_CYC = 0b10000000,
 };
@@ -99,12 +101,24 @@ ASMR_Entry asmr_prog_buffer[ASMR_PROG_BUFFER_SIZE] = {
     // TURN_CYC + SHORTEST + FROM_STRAIGHT + T45 + TURN_RIGHT,
     // SWD1,
     // TURN_CYC + SHORTEST + FROM_DIAG + T135 + TURN_LEFT,
-    SWD1,
-    SWD1,
-    SWD1,
-    SWD1,
-    SWD1,
-    SWD1,
+    
+    // SWD05,
+    // SS90SEL,
+    // SS90SEL,
+    // SS90SER,
+    // SS90SER,
+    // SWD1,
+    // SS90SER,
+    // SWD1,
+    // SS90SER,
+    // SWD1,
+    // SWD05,
+
+    // SWD1,
+
+
+    
+
     // TURN_CYC + SHORTEST + FROM_STRAIGHT + T90 + TURN_LEFT,
     // SWD1,
     // TURN_CYC + SHORTEST + FROM_STRAIGHT + T180 + TURN_LEFT,
@@ -259,7 +273,7 @@ void asmr_cyc_turn(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
         }
 
         first_dist = CELL_WIDTH / 2 - turn_radius;
-        turn_dist = M_PI_4 * turn_radius;
+        turn_dist = M_PI_2 * turn_radius;
         second_dist = first_dist;
 
         turn_vel_f = MAX_VEL;
@@ -315,8 +329,8 @@ void asmr_tick()
         .dist_fleft = dist_get_fleft(),
         .dist_fright = dist_get_fright(),
     };
-    data.is_wall_left = data.dist_left < WF_LEFT_THRESHOLD;
-    data.is_wall_right = data.dist_right < WF_RIGHT_THRESHOLD;
+    data.is_wall_left = data.dist_left > WF_LEFT_THRESHOLD;
+    data.is_wall_right = data.dist_right > WF_RIGHT_THRESHOLD;
     data.is_wall_fleft = false;
     data.is_wall_fright = false;
 
