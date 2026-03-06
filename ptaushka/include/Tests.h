@@ -4,6 +4,7 @@
 #include "MazeDrawer.h"
 #include "Solver.h"
 #include "Navigator.h"
+#include "Router.h"
 
 void test_maze()
 {
@@ -74,7 +75,7 @@ void test_maze()
 
 
   draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
-  while (1);
+  // while (1);
 }
 
 void test_nav_print_coords()
@@ -108,6 +109,20 @@ void test_navigator()
     // test_nav_print_coords();
 }
 
+void test_router()
+{
+  test_maze();
+  nav_init();
+  router_init();
+
+  router_tick();
+  Serial.println("Router path:");
+  Serial.println(router_path_buffer);
+}
+
+
+
+
 /*
 
     SWD05:
@@ -121,7 +136,5 @@ void test_navigator()
 
     SS90SER:
         nav_tick(1, 1, 6);
-    
-    
 
 */

@@ -7,7 +7,8 @@
 #include "Odometer.h"
 #include "Mixer.h"
 #include "DistSensors.h"
-// #include "WallFollowing.h"
+#include "Navigator.h"
+
 
 struct ASMR_Entry
 {

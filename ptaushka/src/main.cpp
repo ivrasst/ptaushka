@@ -15,6 +15,7 @@
 #include "Maze.h"
 #include "MazeDrawer.h"
 #include "Solver.h"
+#include "Navigator.h"
 #include "Tests.h" 
 
 void setup()
@@ -28,7 +29,8 @@ void setup()
   asmr_init();
   dist_init();
   maze_init();
-
+  nav_init();
+  
   interrupts();
 
   argviz_init(Serial);
@@ -41,7 +43,8 @@ void setup()
   argviz_registerScreen(7, wf);
   // argviz_start();
 
-  test_navigator();
+  // test_navigator();
+  test_router();
   
 }
 
