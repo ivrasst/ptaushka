@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ASMR.h"
+#include "Config.h"
+#include "Types.h"
 
 float wf_kp_l = 0.045;//0.06
 float wf_kp_r = -wf_kp_l;

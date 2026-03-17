@@ -4,14 +4,25 @@
 #include "Solver.h"
 #include "Navigator.h"
 #include "Arduino.h"
+#include "Types.h"
 
 #define ROUTER_PATH_BUFFER_SIZE 256
 
+
+
+// Absolute  (NESW) to relative (FLRS)
 char router_path_buffer[ROUTER_PATH_BUFFER_SIZE];
 size_t router_path_index = 0;
 
 Vec2 router_look = Vec2{0, 0};
 char router_state = 0;
+
+// Relative (FLRS) to cyclogram
+
+ASMR_Entry router_cyc_buffer[ROUTER_PATH_BUFFER_SIZE];
+size_t router_cyc_index = 0;
+ASMR_Entry router_cyc_state = {0};
+
 
 
 void router_init()
@@ -19,14 +30,16 @@ void router_init()
     for(int i = 0; i < ROUTER_PATH_BUFFER_SIZE; i++)
     {
         router_path_buffer[i] = 0;
+        router_cyc_buffer[i] = {0};
     }
     router_path_index = 0;
+    router_cyc_index = 0;
 
     router_look = nav_get_pos();
     
     char symbs[] = {'E', 0, 'N', 0, 'S', 0, 'W', 0};
     router_state = symbs[nav_get_sigma()];
-
+    router_cyc_state = {0};
 }
 
 void router_add_step(char step)
@@ -134,4 +147,33 @@ void router_tick()
             router_look.x -= 1;
     }
     
+}
+
+
+void router_add_cyc(int cyc)
+{
+    if(router_cyc_index < ROUTER_PATH_BUFFER_SIZE)
+    {
+        router_cyc_buffer[router_cyc_index].raw = cyc;
+        router_cyc_index++;
+    }
+}
+void router_path_to_cyc(char path[])
+{
+    router_add_cyc(SWD05);
+    for(size_t i = 1; i < ROUTER_PATH_BUFFER_SIZE; i++)
+    {
+        if(path[i] == 'F')
+            router_add_cyc(SWD1);
+        else if(path[i] == 'R')
+            router_add_cyc(SS90SER);
+        else if(path[i] == 'L')
+            router_add_cyc(SS90SEL);
+        else if(path[i] == 'I' || path[i] == 'S')
+        {
+            router_add_cyc(SWD05);
+            router_add_cyc(STOP);
+            return;
+        }
+    }
 }

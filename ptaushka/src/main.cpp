@@ -31,6 +31,7 @@ void setup()
   maze_init();
   nav_init();
   
+  
   interrupts();
 
   argviz_init(Serial);
@@ -45,6 +46,7 @@ void setup()
 
   // test_navigator();
   test_router();
+  // test_maze();
   
 }
 

@@ -42,12 +42,18 @@
 #define WF_LEFT_THRESHOLD  45//20
 #define WF_RIGHT_THRESHOLD 40//20
 
+#define WF_FRIGHT_THRESHOLD 12
+#define WF_FLEFT_THRESHOLD  17
+
 /*===MAZE===*/
-#define MAZE_WIDTH 6
-#define MAZE_HEIGHT 4
+#define MAZE_WIDTH 6//6
+#define MAZE_HEIGHT 6//4
 
 // Solver parameters
 #define MAX_SOLVE_TIME 500 // [us]
+
+#define GOAL_X 2
+#define GOAL_Y 2
 
 // Navigator parameters
 

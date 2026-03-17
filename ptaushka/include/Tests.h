@@ -6,12 +6,13 @@
 #include "Navigator.h"
 #include "Router.h"
 
+
 void test_maze()
 {
     
-  // maze_set_wall(Vec2{0, 0}, Maze::CellWalls{Maze::WALL, Maze::WALL, Maze::WALL, Maze::OPEN});
-  // for(int i = 1; i < MAZE_WIDTH - 1; i++) maze_set_wall(Vec2{i, 0}, Maze::CellWalls{Maze::OPEN, Maze::WALL, Maze::WALL, Maze::OPEN});
-    // maze_set_wall(Vec2{MAZE_WIDTH - 1, 0}, Maze::CellWalls{Maze::OPEN, Maze::OPEN, Maze::WALL, Maze::WALL});
+  maze_set_wall(Vec2{0, 0}, Maze::CellWalls{Maze::WALL, Maze::WALL, Maze::WALL, Maze::OPEN});
+  for(int i = 1; i < MAZE_WIDTH - 1; i++) maze_set_wall(Vec2{i, 0}, Maze::CellWalls{Maze::OPEN, Maze::WALL, Maze::WALL, Maze::OPEN});
+    maze_set_wall(Vec2{MAZE_WIDTH - 1, 0}, Maze::CellWalls{Maze::OPEN, Maze::OPEN, Maze::WALL, Maze::WALL});
 
   maze_set_wall(Vec2{0, 0}, Maze::CellWalls{Maze::WALL, Maze::WALL, Maze::WALL, Maze::OPEN});
   maze_set_wall(Vec2{1, 0}, Maze::CellWalls{Maze::OPEN, Maze::OPEN, Maze::WALL, Maze::OPEN});
@@ -56,7 +57,7 @@ void test_maze()
   solver_init();
   
   
-  solver_set_start_goal(Vec2{0, 0}, Vec2{5, 3});
+  solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
 
   uint16_t count = 0;
   bool solved = false;
@@ -118,6 +119,21 @@ void test_router()
   router_tick();
   Serial.println("Router path:");
   Serial.println(router_path_buffer);
+
+  router_path_to_cyc(router_path_buffer);
+  Serial.println("Router cyc:");
+
+  for(size_t i = 0; i < router_cyc_index; i++)
+  {
+      Serial.print(router_cyc_buffer[i].raw, BIN);
+      Serial.println(" ");
+  }
+  Serial.println(); 
+
+  for(size_t i = 0; i < router_cyc_index; i++)
+  {
+      asmr_prog_buffer[i] = router_cyc_buffer[i];
+  }
 }
 
 

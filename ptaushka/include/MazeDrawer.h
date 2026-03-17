@@ -18,9 +18,9 @@ void draw_maze(int width, int height) {
     for (int x = 0; x < width; x++) {
       Maze::CellWalls cell = maze.getWalls(Vec2{x, y});
       Serial.print("+");
-      if (cell.up == Maze::WALL) {
+      if (cell.north == Maze::WALL) {
         Serial.print(ICON_WALL_HORIZONTAL);
-      } else if (cell.up == Maze::UNKNOWN) {
+      } else if (cell.north == Maze::UNKNOWN) {
         Serial.print(ICON_UNKNOWN_HORIZONTAL);
       } else {
         Serial.print(ICON_OPEN_HORIZONTAL);
@@ -31,9 +31,9 @@ void draw_maze(int width, int height) {
     // Draw the left and right walls of the cells in the current row
     for (int x = 0; x < width; x++) {
       Maze::CellWalls cell = maze.getWalls(Vec2{x, y});
-      if (cell.left == Maze::WALL) {
+      if (cell.west == Maze::WALL) {
         Serial.print(ICON_WALL_VERTICAL);
-      } else if (cell.left == Maze::UNKNOWN) {
+      } else if (cell.west == Maze::UNKNOWN) {
         Serial.print(ICON_UNKNOWN_VERTICAL);
       } else {
         Serial.print(ICON_OPEN_VERTICAL);
@@ -42,9 +42,9 @@ void draw_maze(int width, int height) {
     }
     // Draw the rightmost wall of the last cell in the row
     Maze::CellWalls lastCell = maze.getWalls(Vec2{width - 1, y});
-    if (lastCell.right == Maze::WALL) {
+    if (lastCell.east == Maze::WALL) {
       Serial.println(ICON_WALL_VERTICAL);
-    } else if (lastCell.right == Maze::UNKNOWN) {
+    } else if (lastCell.east == Maze::UNKNOWN) {
       Serial.println(ICON_UNKNOWN_VERTICAL);
     } else {
       Serial.println(ICON_OPEN_VERTICAL);
@@ -55,9 +55,9 @@ void draw_maze(int width, int height) {
   for (int x = 0; x < width; x++) {
     Maze::CellWalls cell = maze.getWalls(Vec2{x, height - 1});
     Serial.print("+");
-    if (cell.down == Maze::WALL) {
+    if (cell.south == Maze::WALL) {
       Serial.print(ICON_WALL_HORIZONTAL);
-    } else if (cell.down == Maze::UNKNOWN) {
+    } else if (cell.south == Maze::UNKNOWN) {
         Serial.print(ICON_UNKNOWN_HORIZONTAL);
     } else {
       Serial.print(ICON_OPEN_HORIZONTAL);
@@ -76,9 +76,9 @@ void draw_maze_with_solver(int width, int height) {
     for (int x = 0; x < width; x++) {
       Maze::CellWalls cell = maze.getWalls(Vec2{x, y});
       Serial.print("+");
-      if (cell.up == Maze::WALL) {
+      if (cell.north == Maze::WALL) {
         Serial.print(ICON_WALL_HORIZONTAL);
-      } else if (cell.up == Maze::UNKNOWN) {
+      } else if (cell.north == Maze::UNKNOWN) {
         Serial.print(ICON_UNKNOWN_HORIZONTAL);
       } else {
         Serial.print(ICON_OPEN_HORIZONTAL);
@@ -89,9 +89,9 @@ void draw_maze_with_solver(int width, int height) {
     // Draw the left and right walls of the cells in the current row
     for (int x = 0; x < width; x++) {
       Maze::CellWalls cell = maze.getWalls(Vec2{x, y});
-      if (cell.left == Maze::WALL) {
+      if (cell.west == Maze::WALL) {
         Serial.print(ICON_WALL_VERTICAL);
-      } else if (cell.left == Maze::UNKNOWN) {
+      } else if (cell.west == Maze::UNKNOWN) {
         Serial.print(ICON_UNKNOWN_VERTICAL);
       } else {
         Serial.print(ICON_OPEN_VERTICAL);
@@ -102,9 +102,9 @@ void draw_maze_with_solver(int width, int height) {
     }
     // Draw the rightmost wall of the last cell in the row
     Maze::CellWalls lastCell = maze.getWalls(Vec2{width - 1, y});
-    if (lastCell.right == Maze::WALL) {
+    if (lastCell.east == Maze::WALL) {
       Serial.println(ICON_WALL_VERTICAL);
-    } else if (lastCell.right == Maze::UNKNOWN) {
+    } else if (lastCell.east == Maze::UNKNOWN) {
       Serial.println(ICON_UNKNOWN_VERTICAL);
     } else {
       Serial.println(ICON_OPEN_VERTICAL);
@@ -115,9 +115,9 @@ void draw_maze_with_solver(int width, int height) {
   for (int x = 0; x < width; x++) {
     Maze::CellWalls cell = maze.getWalls(Vec2{x, height - 1});
     Serial.print("+");
-    if (cell.down == Maze::WALL) {
+    if (cell.south == Maze::WALL) {
       Serial.print(ICON_WALL_HORIZONTAL);
-    } else if (cell.down == Maze::UNKNOWN) {
+    } else if (cell.south == Maze::UNKNOWN) {
         Serial.print(ICON_UNKNOWN_HORIZONTAL);
     } else {
       Serial.print(ICON_OPEN_HORIZONTAL);
