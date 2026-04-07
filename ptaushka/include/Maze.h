@@ -193,14 +193,16 @@ public:
 
 Maze maze;
 
+void maze_set_wall(Vec2 coord, Maze::CellWalls cell_walls)
+{
+    
+    maze.setWall(coord, cell_walls);
+}
+
 void maze_init()
 {
     maze = Maze();
-}
-
-void maze_set_wall(Vec2 coord, Maze::CellWalls cell_walls)
-{
-    maze.setWall(coord, cell_walls);
+    maze_set_wall(Vec2{0, 0}, Maze::CellWalls{Maze::WALL, Maze::WALL, Maze::WALL, Maze::OPEN});
 }
 
 Maze::CellWalls maze_get_walls(Vec2 coord)

@@ -6,7 +6,7 @@
 #include "Arduino.h"
 #include "Types.h"
 
-#define ROUTER_PATH_BUFFER_SIZE 256
+#define ROUTER_PATH_BUFFER_SIZE 128
 
 
 
@@ -37,9 +37,10 @@ void router_init()
 
     router_look = nav_get_pos();
     
-    char symbs[] = {'E', 0, 'N', 0, 'S', 0, 'W', 0};
+    char symbs[] = {'E', 0, 'N', 0, 'W', 0, 'S', 0};
     router_state = symbs[nav_get_sigma()];
     router_cyc_state = {0};
+    Serial.println(router_state);
 }
 
 void router_add_step(char step)
@@ -55,6 +56,7 @@ void router_tick()
     for(size_t i = 0; i < ROUTER_PATH_BUFFER_SIZE && router_state != 'G'; i++)
     {
         char input = solver_get_where_from(router_look);
+        Serial.print(input);
         switch (router_state)
         {
         case 'N':
@@ -160,8 +162,8 @@ void router_add_cyc(int cyc)
 }
 void router_path_to_cyc(char path[])
 {
-    router_add_cyc(SWD05);
-    for(size_t i = 1; i < ROUTER_PATH_BUFFER_SIZE; i++)
+    // router_add_cyc(SWD05);
+    for(size_t i = 0; i < ROUTER_PATH_BUFFER_SIZE; i++)
     {
         if(path[i] == 'F')
             router_add_cyc(SWD1);
@@ -171,7 +173,7 @@ void router_path_to_cyc(char path[])
             router_add_cyc(SS90SEL);
         else if(path[i] == 'I' || path[i] == 'S')
         {
-            router_add_cyc(SWD05);
+            // router_add_cyc(SWD05);
             router_add_cyc(STOP);
             return;
         }

@@ -32,6 +32,7 @@
 ASMR_Entry asmr_prog_buffer[ASMR_PROG_BUFFER_SIZE] = {
    
     SWD05,
+    // TURN_CYC + TURN_LEFT + EXPLORE + T90,
     SWD1,
    
     IDLE,
@@ -354,16 +355,30 @@ void asmr_tick()
         solver_init();
         solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
         
+        mixer_tick(0, 0);
+        Serial.print("navx: ");
+        Serial.print(nav_get_x());
+        Serial.print(" navy: ");
+        Serial.print(nav_get_y());
+        Serial.print(" navsigma: ");
+        Serial.println(nav_get_sigma());
+        // draw_maze(MAZE_WIDTH, MAZE_HEIGHT);
     }
     bool is_solved = solver_solve();
     if(is_solved)
     {
         router_init();
         router_tick();
-        // router_path_to_cyc(router_path_buffer);
 
-        // asmr_prog_buffer[0] = router_cyc_buffer[0];
-        // asmr_prog_counter = 0;
+        Serial.println("---");
+        draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
+        Serial.println(router_path_buffer);
+        router_path_to_cyc(router_path_buffer);
+
+        asmr_prog_buffer[0] = router_cyc_buffer[0];
+        asmr_prog_counter = 0;
+
+        Serial.println(asmr_prog_buffer[0].raw, BIN);
 
         output.v_0 = 0;
         output.theta_i0 = 0;

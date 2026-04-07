@@ -75,6 +75,7 @@ void test_maze()
   } while (!solved);
 
 
+  // draw_maze(MAZE_WIDTH, MAZE_HEIGHT);
   draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
   // while (1);
 }
@@ -125,9 +126,11 @@ void test_router()
 
   for(size_t i = 0; i < router_cyc_index; i++)
   {
+      // Serial.print(i);
       Serial.print(router_cyc_buffer[i].raw, BIN);
       Serial.println(" ");
   }
+  Serial.println(router_cyc_index);
   Serial.println(); 
 
   for(size_t i = 0; i < router_cyc_index; i++)

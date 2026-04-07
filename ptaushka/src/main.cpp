@@ -45,9 +45,10 @@ void setup()
   // argviz_start();
 
   // test_navigator();
-  test_router();
+  // test_router();
+  // maze_init();
   // test_maze();
-  
+  // draw_maze(MAZE_WIDTH, MAZE_HEIGHT);
 }
 
 void loop()
