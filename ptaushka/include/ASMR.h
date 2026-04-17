@@ -18,9 +18,9 @@
 
 ASMR_Entry asmr_prog_buffer[ASMR_PROG_BUFFER_SIZE] = {
    
-    // SWD05,
+    SWD05,
     
-    // SWD1,
+    SWD1,
    
     IDLE,
     STOP
@@ -362,8 +362,8 @@ void asmr_tick()
         Serial.println(router_path_buffer);
         router_path_to_cyc(router_path_buffer);
 
-        // asmr_prog_buffer[0] = router_cyc_buffer[0];//////////////////////////////////////////////////////////////
-        // asmr_prog_counter = 0;
+        asmr_prog_buffer[0] = router_cyc_buffer[0];//////////////////////////////////////////////////////////////
+        asmr_prog_counter = 0;
 
         Serial.println(asmr_prog_buffer[0].raw, BIN);
 
