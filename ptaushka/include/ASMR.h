@@ -14,26 +14,13 @@
 #include "MazeDrawer.h"
 #include "Router.h"
 
-#define FROM_STRAIGHT 0
-#define FROM_DIAG 0b00001000
 
-#define SHORTEST 0
-#define EXPLORE 0b00010000
-#define IN_PLACE 0b00100000
-
-#define T45 0
-#define T90 0b00000010
-#define T135 0b00000100
-#define T180 0b00000110
-
-#define TURN_LEFT 0b00000000
-#define TURN_RIGHT 0b00000001
 
 ASMR_Entry asmr_prog_buffer[ASMR_PROG_BUFFER_SIZE] = {
    
-    SWD05,
-    // TURN_CYC + TURN_LEFT + EXPLORE + T90,
-    SWD1,
+    // SWD05,
+    
+    // SWD1,
    
     IDLE,
     STOP
@@ -375,8 +362,8 @@ void asmr_tick()
         Serial.println(router_path_buffer);
         router_path_to_cyc(router_path_buffer);
 
-        asmr_prog_buffer[0] = router_cyc_buffer[0];
-        asmr_prog_counter = 0;
+        // asmr_prog_buffer[0] = router_cyc_buffer[0];//////////////////////////////////////////////////////////////
+        // asmr_prog_counter = 0;
 
         Serial.println(asmr_prog_buffer[0].raw, BIN);
 

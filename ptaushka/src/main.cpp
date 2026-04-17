@@ -42,7 +42,7 @@ void setup()
   argviz_registerScreen(4, asmr);
   argviz_registerScreen(5, dist);
   argviz_registerScreen(7, wf);
-  // argviz_start();
+  argviz_start();
 
   // test_navigator();
   // test_router();

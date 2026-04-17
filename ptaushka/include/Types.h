@@ -1,5 +1,23 @@
 #pragma once
 #include <inttypes.h>
+
+#define FROM_STRAIGHT 0
+#define FROM_DIAG 0b00001000
+
+#define SHORTEST 0
+#define EXPLORE 0b00010000
+#define IN_PLACE 0b00100000
+
+#define T45 0
+#define T90 0b00000010
+#define T135 0b00000100
+#define T180 0b00000110
+
+#define TURN_LEFT 0b00000000
+#define TURN_RIGHT 0b00000001
+//ss180i
+
+
 struct ASMR_Entry
 {
     union
