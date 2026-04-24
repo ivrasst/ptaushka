@@ -18,10 +18,15 @@
 
 ASMR_Entry asmr_prog_buffer[ASMR_PROG_BUFFER_SIZE] = {
    
-    SWD05,
-    
-    SWD1,
+    // SWD05,
+    LINEUP_PART_A,
+    LINEUP_PART_B,
+    // SWD1,
+    // SWD1,
+    // SWD1,
+    // SWD1,
    
+    // SWD05,
     IDLE,
     STOP
 };
@@ -164,7 +169,7 @@ void asmr_cyc_turn(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
 
         if (turn_angle != 1)
         {
-            Serial.println("EXPLORE turn_angle != 90");
+            // Serial.println("EXPLORE turn_angle != 90");
             return;
         }
 
@@ -209,6 +214,34 @@ void asmr_cyc_turn(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
 
     output->is_completed = data.odom_S > first_dist + turn_dist + second_dist;
 }
+
+
+void asmr_cyc_lineup(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
+{
+    uint8_t lineup_part = (cyc.raw & 0b00000001);
+    Serial.println("lineup_part");
+    if(lineup_part == 0)
+    {
+        output->v_0 =  -MAX_VEL;
+        output->theta_i0 = 0;
+        output->is_completed = data.odom_S <= -CELL_WIDTH;
+    }
+    else
+    {
+        float forw_dist = 0.038;
+        output->v_0 =  MAX_VEL;
+        output->theta_i0 = 0;
+        output->is_completed = data.odom_S >= forw_dist;
+    }
+
+}
+// void asmr_cyc_lineup_b(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
+// {
+//     float forw_dist = 0.035;
+
+//     output->is_completed = data.odom_S ;
+// }
+
 
 void asmr_nav_update(ASMR_Entry cyc)
 {
@@ -328,44 +361,64 @@ void asmr_tick()
     case TURN:
         asmr_cyc_turn(&output, data, current_cyc);
         break;
+    case L_UP:
+        asmr_cyc_lineup(&output, data, current_cyc);
+        break;
+        
+        
     default:
         break;
     }
-
+    
     if (output.is_completed)
     {
         asmr_prog_counter++;
         odom_reset();
         asmr_nav_update(current_cyc);
-        wall_explorer_update(data);
-    
-        solver_init();
-        solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+        if(wall_explorer_update(data))
+        {
+            solver_init();
+            solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+        }
         
         mixer_tick(0, 0);
-        Serial.print("navx: ");
-        Serial.print(nav_get_x());
-        Serial.print(" navy: ");
-        Serial.print(nav_get_y());
-        Serial.print(" navsigma: ");
-        Serial.println(nav_get_sigma());
+
+        // Serial.print("navx: ");
+        // Serial.print(nav_get_x());
+        // Serial.print(" navy: ");
+        // Serial.print(nav_get_y());
+        // Serial.print(" navsigma: ");
+        // Serial.println(nav_get_sigma());
         // draw_maze(MAZE_WIDTH, MAZE_HEIGHT);
     }
+
     bool is_solved = solver_solve();
+  
     if(is_solved)
     {
         router_init();
         router_tick();
-
-        Serial.println("---");
-        draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
-        Serial.println(router_path_buffer);
+        
+        // Serial.println("---");
+        // draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
+        // Serial.println(router_path_buffer);
         router_path_to_cyc(router_path_buffer);
+        
+        // asmr_prog_buffer[0] = router_cyc_buffer[0];
+        // asmr_prog_counter = 0;
+        // Serial.println("router_cyc_index:" + String(router_cyc_index));
 
-        asmr_prog_buffer[0] = router_cyc_buffer[0];//////////////////////////////////////////////////////////////
-        asmr_prog_counter = 0;
 
-        Serial.println(asmr_prog_buffer[0].raw, BIN);
+        // for(int i  = 0; i < router_cyc_index; i++) //////////////////////////////////////////////////////////////
+        // {
+        //     asmr_prog_buffer[i].raw = router_cyc_buffer[i].raw;
+        // }
+        // asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
+        // asmr_prog_buffer[router_cyc_index].raw = SWD05;
+        // asmr_prog_counter = 0;
+
+
+        // Serial.println(asmr_prog_buffer[0].raw, BIN);
 
         output.v_0 = 0;
         output.theta_i0 = 0;

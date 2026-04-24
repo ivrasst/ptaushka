@@ -43,13 +43,18 @@ void setup()
   argviz_registerScreen(5, dist);
   argviz_registerScreen(7, wf);
   // argviz_start();
-
+  
+  
   // test_navigator();
   // test_router();
   // maze_init();
   // test_maze();
   // draw_maze(MAZE_WIDTH, MAZE_HEIGHT);
 }
+
+// 1. Переписать весь решенный лабиринт в циклограммах а asmr_prog_buffer
+// 2. перезапускать решение лабиринта, если увидели новые стенки и не на финише
+
 
 void loop()
 {

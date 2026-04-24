@@ -15,6 +15,14 @@
 
 #define TURN_LEFT 0b00000000
 #define TURN_RIGHT 0b00000001
+
+#define L_UP 0b11
+#define LINEUP_PART_A 0b11000000
+#define LINEUP_PART_B 0b11000001
+
+#define SS180I (TURN_CYC + TURN_LEFT + IN_PLACE + T180)
+
+
 //ss180i
 
 

@@ -172,15 +172,9 @@ void router_path_to_cyc(char path[])
         else if(path[i] == 'L')
             router_add_cyc(SS90SEL);
         else if(path[i] == 'I')
-            router_add_cyc(TURN_CYC + TURN_LEFT + IN_PLACE + T180);
+            router_add_cyc(SS180I);
         else if(path[i] == 'S')
+            // router_add_cyc(SWD05);
             router_add_cyc(STOP);
-
-        // else if(path[i] == 'I' || path[i] == 'S')
-        // {
-        //     // router_add_cyc(SWD05);
-        //     router_add_cyc(STOP);
-        //     return;
-        // }
     }
 }

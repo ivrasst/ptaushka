@@ -14,7 +14,11 @@
 // Robot parameters
 
 #define ROBOT_WIDTH 0.075         // [m]
-#define ROBOT_WHEEL_RADIUS 0.0165 // [m]
+#define ROBOT_WHEEL_RADIUS (0.0165*745.0/720.0) // [m]
+
+// a / y * x
+// a * x / y
+// a * (x/y)
 
 /*
 16mm
@@ -37,10 +41,10 @@
 #define ASMR_PROG_BUFFER_SIZE 64
 
 // Wall parameters
-#define WF_LEFT_REFERENCE  158//141//50
-#define WF_RIGHT_REFERENCE 180//154//50
-#define WF_LEFT_THRESHOLD  52//45//20
-#define WF_RIGHT_THRESHOLD 62//40//20
+#define WF_LEFT_REFERENCE  124//160//141//50
+#define WF_RIGHT_REFERENCE 170//130//154//50
+#define WF_LEFT_THRESHOLD  64//52//45//20
+#define WF_RIGHT_THRESHOLD 62//62//40//20
 
 #define WF_FRIGHT_THRESHOLD 12
 #define WF_FLEFT_THRESHOLD  17
