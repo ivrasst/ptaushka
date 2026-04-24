@@ -4,6 +4,8 @@
  * Hardware pin defines
  */
 #define BOARD UKMARSBOT_V1
+#define FILTER_ALFA 0.1
+
 const int ENCODER_LEFT_CLK = 2;
 const int ENCODER_RIGHT_CLK = 3;
 const int ENCODER_LEFT_B = 4;
@@ -167,17 +169,27 @@ void dist_init()
 
 int dist_get_left()
 {
+    static int result_old = gSensorLeft;
     noInterrupts(); // Начало критической секции (запрет прерываний)
-    int result = gSensorLeft;
+    
+    int result_new = gSensorLeft;
     interrupts(); // Конец критической секции (включение прерываний)
+
+    int result = FILTER_ALFA*result_new + (1.0-FILTER_ALFA)*result_old;
+    result_old = result_new;
     return result;
 }
 
 int dist_get_right()
 {
+    static int result_old = gSensorLeft;
+
     noInterrupts();
-    int result = gSensorRight;
+    int result_new = gSensorRight;
     interrupts();
+
+    int result = FILTER_ALFA*result_new + (1.0-FILTER_ALFA)*result_old;
+    result_old = result_new;
     return result;
 }
 

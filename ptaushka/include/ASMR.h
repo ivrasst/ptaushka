@@ -18,15 +18,13 @@
 
 ASMR_Entry asmr_prog_buffer[ASMR_PROG_BUFFER_SIZE] = {
    
-    // SWD05,
-    LINEUP_PART_A,
     LINEUP_PART_B,
-    // SWD1,
-    // SWD1,
-    // SWD1,
-    // SWD1,
+    SWD05,
+
+    // SS180I,
+    // LINEUP_PART_A,
+    // LINEUP_PART_B,
    
-    // SWD05,
     IDLE,
     STOP
 };
@@ -243,9 +241,13 @@ void asmr_cyc_lineup(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
 // }
 
 
-void asmr_nav_update(ASMR_Entry cyc)
+bool asmr_nav_update(ASMR_Entry cyc)
 {
     uint8_t cyc_type = cyc.raw >> 6;
+
+    int dx = 0;
+    int dy = 0;
+    int8_t delta_sigma = 0;
 
     switch (cyc_type)
     {
@@ -254,7 +256,8 @@ void asmr_nav_update(ASMR_Entry cyc)
         break;
     case FORW:
     {
-        uint8_t dx = cyc.raw & 0b00011111;
+        // uint8_t dx = cyc.raw & 0b00011111;
+        dx = cyc.raw & 0b00011111;
         nav_tick( dx, 0, 0);
         break;
     }
@@ -263,10 +266,10 @@ void asmr_nav_update(ASMR_Entry cyc)
         uint8_t delta_angle = (cyc.raw & 0b00000110) >> 1;
         uint8_t turn_dir = cyc.raw & 0b00000001;
 
-        int8_t delta_sigma = (delta_angle + 1) * (turn_dir ? -1 : 1);
+        delta_sigma = (delta_angle + 1) * (turn_dir ? -1 : 1);
 
-        int dx = 0;
-        int dy = 0;
+        // int dx = 0;
+        // int dy = 0;
         switch ( (cyc.raw & 0b00110000)>>4 )
         {
         case 0b00: // Shortest
@@ -316,11 +319,17 @@ void asmr_nav_update(ASMR_Entry cyc)
             dy = -dy;
 
         nav_tick(dx, dy, delta_sigma);
+
+        
         break;
     }
     default:
         break;
     }
+    if(dx != 0 || dy != 0 || delta_sigma != 0)
+        return true;
+    else
+        return false;
 }
 
 void asmr_tick()
@@ -374,12 +383,21 @@ void asmr_tick()
     {
         asmr_prog_counter++;
         odom_reset();
-        asmr_nav_update(current_cyc);
-        if(wall_explorer_update(data))
+        if(asmr_nav_update(current_cyc))
         {
-            solver_init();
-            solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+            if(wall_explorer_update(data))
+            {
+                solver_init();
+                solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+            }
         }
+        // bool is_moved = asmr_nav_update(current_cyc);
+        // bool is_exprored = wall_explorer_update(data);
+        // if(is_moved && is_exprored)
+        // {
+            // solver_init();
+            // solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+        // }
         
         mixer_tick(0, 0);
 
@@ -409,13 +427,13 @@ void asmr_tick()
         // Serial.println("router_cyc_index:" + String(router_cyc_index));
 
 
-        // for(int i  = 0; i < router_cyc_index; i++) //////////////////////////////////////////////////////////////
-        // {
-        //     asmr_prog_buffer[i].raw = router_cyc_buffer[i].raw;
-        // }
-        // asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
-        // asmr_prog_buffer[router_cyc_index].raw = SWD05;
-        // asmr_prog_counter = 0;
+        for(int i  = 0; i < router_cyc_index; i++) //////////////////////////////////////////////////////////////
+        {
+            asmr_prog_buffer[i].raw = router_cyc_buffer[i].raw;
+        }
+        asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
+        asmr_prog_buffer[router_cyc_index].raw = SWD05;
+        asmr_prog_counter = 0;
 
 
         // Serial.println(asmr_prog_buffer[0].raw, BIN);
