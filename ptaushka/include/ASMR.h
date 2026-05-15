@@ -20,11 +20,11 @@ ASMR_Entry asmr_prog_buffer[ASMR_PROG_BUFFER_SIZE] = {
    
     LINEUP_PART_B,
     SWD05,
-
-    // SS180I,
-    // LINEUP_PART_A,
-    // LINEUP_PART_B,
-   
+    SWD1,
+    SS90SER,
+    SS90SER,
+    SS90SER,
+    SS90SER,
     IDLE,
     STOP
 };
@@ -41,6 +41,16 @@ size_t asmr_prog_counter = 0;
 void asmr_init()
 {
     asmr_prog_counter = 0;
+    // asmr_prog_buffer[0] = ASMR_Entry{LINEUP_PART_B};
+    // asmr_prog_buffer[1] = ASMR_Entry{SWD05};
+    // asmr_prog_buffer[2] = ASMR_Entry{SWD1};
+    // asmr_prog_buffer[3] = ASMR_Entry{IDLE};
+    // asmr_prog_buffer[4] = ASMR_Entry{STOP};
+}
+
+bool asmr_is_finished()
+{
+    return asmr_prog_buffer[asmr_prog_counter].raw == STOP;
 }
 
 void asmr_cyc_stidle(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
@@ -427,13 +437,13 @@ void asmr_tick()
         // Serial.println("router_cyc_index:" + String(router_cyc_index));
 
 
-        for(int i  = 0; i < router_cyc_index; i++) //////////////////////////////////////////////////////////////
-        {
-            asmr_prog_buffer[i].raw = router_cyc_buffer[i].raw;
-        }
-        asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
-        asmr_prog_buffer[router_cyc_index].raw = SWD05;
-        asmr_prog_counter = 0;
+        // for(int i  = 0; i < router_cyc_index; i++) //////////////////////////////////////////////////////////////
+        // {
+        //     asmr_prog_buffer[i].raw = router_cyc_buffer[i].raw;
+        // }
+        // asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
+        // asmr_prog_buffer[router_cyc_index].raw = SWD05;
+        // asmr_prog_counter = 0;
 
 
         // Serial.println(asmr_prog_buffer[0].raw, BIN);
