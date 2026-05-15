@@ -13,7 +13,7 @@
 
 // Robot parameters
 
-#define ROBOT_WIDTH (0.075*380/360)//(0.075*180.0/174.0)         // [m]
+#define ROBOT_WIDTH (0.075*360/380)//(0.075*180.0/174.0)         // [m]
 #define ROBOT_WHEEL_RADIUS (0.0165*745.0/720.0) // [m]
 
 // a / y * x
@@ -28,8 +28,8 @@
 */
 
 // Movement parameters
-#define MAX_VEL 0.20    // [m/s]
-#define MAX_ANG_VEL 1.8 // [rad/s]
+#define MAX_VEL 0.25//0.20    // [m/s]
+#define MAX_ANG_VEL 2.0//1.8 // [rad/s]
 
 #define TURN_RADIUS_SHORTEST 0.09 // [m]
 #define TURN_RADIUS_EXPLORE 0.05  // [m]

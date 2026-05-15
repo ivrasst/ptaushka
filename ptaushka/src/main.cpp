@@ -43,7 +43,7 @@ void setup()
   argviz_registerScreen(5, dist);
   argviz_registerScreen(7, wf);
   // argviz_start();
-  /*
+  
   while (true)
   {
     static uint32_t timer = micros();
@@ -64,14 +64,13 @@ void setup()
   while (millis() - timerStop < 8000)
     m_drive(0, 0);
   
+
+  odom_reset();
   solver_init();
   solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
 
+  while(!solver_solve());
 
-  bool is_resolved = solver_solve();
-
-  if(is_resolved)
-  {
     router_init();
     router_tick();
     
@@ -84,7 +83,6 @@ void setup()
     asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
     asmr_prog_buffer[router_cyc_index].raw = SWD05;
     asmr_prog_counter = 0;
-  }
 
   while(true)
   {
