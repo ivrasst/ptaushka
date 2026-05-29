@@ -224,7 +224,7 @@ void asmr_cyc_turn(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
 void asmr_cyc_lineup(CyclogramOutput *output, SensorData data, ASMR_Entry cyc)
 {
     uint8_t lineup_part = (cyc.raw & 0b00000001);
-    Serial.println("lineup_part");
+    // Serial.println("lineup_part");
     if(lineup_part == 0)
     {
         output->v_0 =  -MAX_VEL;
@@ -395,16 +395,23 @@ void asmr_tick()
             if(wall_explorer_update(data))
             {
                 solver_init();
-                solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+                Serial.print(nav_get_pos().x);
+                Serial.print(" ");
+                Serial.println(nav_get_pos().y);
+                // solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+                solver_set_start_goal(nav_get_pos(), Vec2{GOAL_X, GOAL_Y});
             }
         }
-        // bool is_moved = asmr_nav_update(current_cyc);
-        // bool is_exprored = wall_explorer_update(data);
-        // if(is_moved && is_exprored)
-        // {
-            // solver_init();
-            // solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
-        // }
+
+        /*
+        bool is_moved = asmr_nav_update(current_cyc);
+        bool is_exprored = wall_explorer_update(data);
+        if(is_moved && is_exprored)
+        {
+            solver_init();
+            solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
+        }
+        //*/
         
         mixer_tick(0, 0);
 
@@ -425,8 +432,8 @@ void asmr_tick()
         router_tick();
         
         // Serial.println("---");
-        // draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
-        // Serial.println(router_path_buffer);
+        draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
+        Serial.println(router_path_buffer);
         router_path_to_cyc(router_path_buffer);
         
         // asmr_prog_buffer[0] = router_cyc_buffer[0];

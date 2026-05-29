@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include "Maze.h"
+#include "Navigator.h"
 
 #define ICON_WALL_VERTICAL "!"
 #define ICON_WALL_HORIZONTAL "---"
@@ -96,9 +97,18 @@ void draw_maze_with_solver(int width, int height) {
       } else {
         Serial.print(ICON_OPEN_VERTICAL);
       }
-      Serial.print(" ");
-      Serial.print(solver_get_where_from(Vec2{int16_t(x), int16_t(y)}));  // Space for the cell content
-      Serial.print(" ");
+      if(nav_get_pos().x == x && nav_get_pos().y == y)
+      {
+        Serial.print(solver_get_where_from(Vec2{int16_t(x), int16_t(y)}));  // Space for the cell content
+        Serial.print("R");
+        Serial.print(nav_get_sigma());
+      }
+      else
+      {
+        Serial.print(" ");
+        Serial.print(solver_get_where_from(Vec2{int16_t(x), int16_t(y)}));  // Space for the cell content
+        Serial.print(" ");
+      }
     }
     // Draw the rightmost wall of the last cell in the row
     Maze::CellWalls lastCell = maze.getWalls(Vec2{width - 1, y});

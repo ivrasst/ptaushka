@@ -28,8 +28,8 @@
 */
 
 // Movement parameters
-#define MAX_VEL 0.25//0.20    // [m/s]
-#define MAX_ANG_VEL 2.0//1.8 // [rad/s]
+#define MAX_VEL 0.20//0.25//0.20    // [m/s]
+#define MAX_ANG_VEL 1.8 //1.8 // [rad/s]
 
 #define TURN_RADIUS_SHORTEST 0.09 // [m]
 #define TURN_RADIUS_EXPLORE 0.05  // [m]
@@ -41,13 +41,13 @@
 #define ASMR_PROG_BUFFER_SIZE 64
 
 // Wall parameters
-#define WF_LEFT_REFERENCE  148//124//160//141//50
-#define WF_RIGHT_REFERENCE 172//170//130//154//50
-#define WF_LEFT_THRESHOLD  54//64//52//45//20
-#define WF_RIGHT_THRESHOLD 70//62//62//40//20
+#define WF_LEFT_REFERENCE  135//148//148//124//160//141//50
+#define WF_RIGHT_REFERENCE 180//170//172//170//130//154//50
+#define WF_LEFT_THRESHOLD  57//54//54//64//52//45//20
+#define WF_RIGHT_THRESHOLD 69//62//70//62//62//40//20
 
-#define WF_FRIGHT_THRESHOLD 12
-#define WF_FLEFT_THRESHOLD  17
+#define WF_FRIGHT_THRESHOLD 21//12//19
+#define WF_FLEFT_THRESHOLD  28//17//35
 
 /*===MAZE===*/
 #define MAZE_WIDTH 6//6
@@ -56,8 +56,8 @@
 // Solver parameters
 #define MAX_SOLVE_TIME 500 // [us]
 
-#define GOAL_X 2
-#define GOAL_Y 2
+#define GOAL_X 4//3//2
+#define GOAL_Y 4//1//2
 
 // Navigator parameters
 

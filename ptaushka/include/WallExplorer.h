@@ -17,7 +17,7 @@ bool wall_explorer_update(SensorData data)
     bool cell_updated = false;
     if(walls_start.west == Maze::UNKNOWN || walls_start.south == Maze::UNKNOWN
         || walls_start.north == Maze::UNKNOWN || walls_start.east == Maze::UNKNOWN)
-        {
+        {            
             cell_updated = true;
         }
 

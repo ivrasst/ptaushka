@@ -30,7 +30,7 @@ void setup()
   dist_init();
   maze_init();
   nav_init();
-  
+  pinMode(6, OUTPUT);
   
   interrupts();
 
@@ -44,6 +44,8 @@ void setup()
   argviz_registerScreen(7, wf);
   // argviz_start();
   
+  digitalWrite(6, 0);
+  
   while (true)
   {
     static uint32_t timer = micros();
@@ -55,9 +57,11 @@ void setup()
 
     if(asmr_is_finished())
     {
+      // digitalWrite(6, 1);
       break;
     }
   }
+  Serial.println("=======  RESOLVE  =======");
   nav_init();
   asmr_init();
   static uint32_t timerStop = millis();
@@ -69,20 +73,21 @@ void setup()
   solver_init();
   solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
 
-  while(!solver_solve());
-
-    router_init();
-    router_tick();
-    
-    router_path_to_cyc(router_path_buffer);
-    
-    for(int i  = 0; i < router_cyc_index; i++)
-    {
-        asmr_prog_buffer[i].raw = router_cyc_buffer[i].raw;
-    }
-    asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
-    asmr_prog_buffer[router_cyc_index].raw = SWD05;
-    asmr_prog_counter = 0;
+  while(!solver_solve())
+    digitalWrite(6, 1);
+  digitalWrite(6, 0);
+  router_init();
+  router_tick();
+  
+  router_path_to_cyc(router_path_buffer);
+  
+  for(int i  = 0; i < router_cyc_index; i++)
+  {
+      asmr_prog_buffer[i].raw = router_cyc_buffer[i].raw;
+  }
+  asmr_prog_buffer[router_cyc_index+1] = asmr_prog_buffer[router_cyc_index];
+  asmr_prog_buffer[router_cyc_index].raw = SWD05;
+  asmr_prog_counter = 0;
 
   while(true)
   {
@@ -119,7 +124,8 @@ void loop()
   static uint32_t timer = micros();
   while (micros() - timer < Ts_us)
     ;
-  timer = micros();
+    timer = micros();
+    
 
   // Sense
   // odom_tick();
