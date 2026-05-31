@@ -36,6 +36,7 @@ void setup()
   
   interrupts();
 
+  
   argviz_init(Serial);
   argviz_registerScreen(0, volts);
   argviz_registerScreen(1, encoders);
@@ -44,8 +45,9 @@ void setup()
   argviz_registerScreen(4, asmr);
   argviz_registerScreen(5, dist);
   argviz_registerScreen(7, wf);
-  // argviz_start();
-  
+  argviz_start();
+  //*/
+  /*
   digitalWrite(6, 0);
   
   while (true)
@@ -67,8 +69,10 @@ void setup()
   nav_init();
   asmr_init();
   static uint32_t timerStop = millis();
-  while (millis() - timerStop < 8000)
+  // while (millis() - timerStop < 8000)
     m_drive(0, 0);
+  while(analogRead(A6) < 1000);
+  while(analogRead(A6) > 900);
   
 
   odom_reset();
@@ -142,5 +146,7 @@ void loop()
   // Act
   // servo_tick(left_w0, right_w0);
   // mixer_tick(v_0, theta_i0);
-  asmr_tick();
+
+  // Serial.println(analogRead(A6));
+  // asmr_tick();
 }

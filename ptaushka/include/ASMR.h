@@ -395,9 +395,9 @@ void asmr_tick()
             if(wall_explorer_update(data))
             {
                 solver_init();
-                Serial.print(nav_get_pos().x);
-                Serial.print(" ");
-                Serial.println(nav_get_pos().y);
+                // Serial.print(nav_get_pos().x);
+                // Serial.print(" ");
+                // Serial.println(nav_get_pos().y);
                 // solver_set_start_goal(Vec2{0, 0}, Vec2{GOAL_X, GOAL_Y});
                 solver_set_start_goal(nav_get_pos(), Vec2{GOAL_X, GOAL_Y});
             }
@@ -432,8 +432,8 @@ void asmr_tick()
         router_tick();
         
         // Serial.println("---");
-        draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
-        Serial.println(router_path_buffer);
+        // draw_maze_with_solver(MAZE_WIDTH, MAZE_HEIGHT);
+        // Serial.println(router_path_buffer);
         router_path_to_cyc(router_path_buffer);
         
         // asmr_prog_buffer[0] = router_cyc_buffer[0];
@@ -458,7 +458,7 @@ void asmr_tick()
     // router_tick();
     if(current_cyc.raw == IDLE)
     {
-        draw_maze(MAZE_WIDTH, MAZE_HEIGHT);
+        // draw_maze(MAZE_WIDTH, MAZE_HEIGHT);
     }
     // Write motors
     mixer_tick(output.v_0, output.theta_i0);

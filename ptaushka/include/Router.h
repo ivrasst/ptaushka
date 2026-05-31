@@ -6,7 +6,7 @@
 #include "Arduino.h"
 #include "Types.h"
 
-#define ROUTER_PATH_BUFFER_SIZE 32
+#define ROUTER_PATH_BUFFER_SIZE 64
 
 
 
