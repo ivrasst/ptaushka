@@ -2,7 +2,7 @@
 #include "Maze.h"
 #include "Config.h"
 
-const int MAX_SIZE = 64; // Maximum size of the queue
+const int MAX_SIZE = 128; // Maximum size of the queue
 
 template<typename T>
 class Queue {

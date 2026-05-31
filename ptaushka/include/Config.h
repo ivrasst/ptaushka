@@ -38,7 +38,7 @@
 #define CELL_WIDTH 0.18 // [m]
 
 // ASMR parameters
-#define ASMR_PROG_BUFFER_SIZE 64
+#define ASMR_PROG_BUFFER_SIZE 32
 
 // Wall parameters
 #define WF_LEFT_REFERENCE  135//148//148//124//160//141//50
@@ -56,8 +56,8 @@
 // Solver parameters
 #define MAX_SOLVE_TIME 500 // [us]
 
-#define GOAL_X 4//3//2
-#define GOAL_Y 4//1//2
+#define GOAL_X 3//2
+#define GOAL_Y 4//2
 
 // Navigator parameters
 
