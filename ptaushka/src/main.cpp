@@ -36,7 +36,7 @@ void setup()
   
   interrupts();
 
-  
+  /*
   argviz_init(Serial);
   argviz_registerScreen(0, volts);
   argviz_registerScreen(1, encoders);
@@ -47,33 +47,46 @@ void setup()
   argviz_registerScreen(7, wf);
   argviz_start();
   //*/
-  /*
+  
   digitalWrite(6, 0);
   
-  while (true)
-  {
-    static uint32_t timer = micros();
-    while (micros() - timer < Ts_us)
-      ;
-    timer = micros();
-    
-    asmr_tick();
-
-    if(asmr_is_finished())
+  if(analogRead(A6) > 500){
+    while (true)
     {
-      // digitalWrite(6, 1);
-      break;
+      static uint32_t timer = micros();
+      while (micros() - timer < Ts_us)
+        ;
+      timer = micros();
+
+      asmr_tick();
+
+      if(asmr_is_finished())
+      {
+        // digitalWrite(6, 1);
+        break;
+      }
     }
   }
   Serial.println("=======  RESOLVE  =======");
   nav_init();
   asmr_init();
-  static uint32_t timerStop = millis();
-  // while (millis() - timerStop < 8000)
-    m_drive(0, 0);
+
+
+  ////////////////////////
+  m_drive(0, 0);
   while(analogRead(A6) < 1000);
   while(analogRead(A6) > 900);
-  
+
+  static uint32_t timerStop = millis();
+  while (millis() - timerStop < 50);
+
+
+  // if(analogRead(A6) < 300)
+  //   MAX_VEL = 0.1;
+  // else
+    MAX_VEL = 0.24;
+
+  ////////////////////////
 
   odom_reset();
   solver_init();
@@ -148,5 +161,5 @@ void loop()
   // mixer_tick(v_0, theta_i0);
 
   // Serial.println(analogRead(A6));
-  // asmr_tick();
+  asmr_tick();
 }

@@ -28,11 +28,11 @@
 */
 
 // Movement parameters
-#define MAX_VEL 0.22//0.25//0.20    // [m/s]
-#define MAX_ANG_VEL 1.8 //1.8 // [rad/s]
+float MAX_VEL =  0.20;//0.21;//0.25//0.20    // [m/s]
+#define MAX_ANG_VEL 1.7//1.9 //1.8 // [rad/s]
 
 #define TURN_RADIUS_SHORTEST 0.09 // [m]
-#define TURN_RADIUS_EXPLORE 0.05  // [m]
+#define TURN_RADIUS_EXPLORE  0.07 // [m]
 
 // Maze parameters
 #define CELL_WIDTH 0.18 // [m]
@@ -41,13 +41,13 @@
 #define ASMR_PROG_BUFFER_SIZE 64
 
 // Wall parameters
-#define WF_LEFT_REFERENCE  159
-#define WF_RIGHT_REFERENCE 150
-#define WF_LEFT_THRESHOLD  52
-#define WF_RIGHT_THRESHOLD 70
+#define WF_LEFT_REFERENCE  150//159
+#define WF_RIGHT_REFERENCE 153//150
+#define WF_LEFT_THRESHOLD  56//52
+#define WF_RIGHT_THRESHOLD 62//70
 
-#define WF_FRIGHT_THRESHOLD 22//21//12//19
-#define WF_FLEFT_THRESHOLD  31//28//17//35
+#define WF_FRIGHT_THRESHOLD 20//21//12//19
+#define WF_FLEFT_THRESHOLD  27//28//17//35
 
 /*===MAZE===*/
 #define MAZE_WIDTH 12//6
